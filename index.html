@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E0C09">
+<title>દર્પણ · Darpan v4 — સ્ક્રીન શેર</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@600;700;800&family=Hind+Vadodara:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- પાયો ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+:root{
+  --bg:#0E0C09; --panel:#171310; --panel2:#1D1712; --line:#2C251B; --line2:#3E3423;
+  --ink:#F3EDDE; --dim:#AEA48F; --amber:#FFB454; --red:#FF5C49;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  background-image:radial-gradient(rgba(255,180,84,.05) 1px, transparent 1.2px);
+  background-size:26px 26px;
+  color:var(--ink); font-family:'Hind Vadodara',sans-serif;
+  min-height:100vh; -webkit-font-smoothing:antialiased; touch-action:manipulation;
+}
+::selection{background:rgba(255,180,84,.3)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.mono{font-family:'Space Mono',monospace}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px 40px}
+svg.ic{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---------- હેડર ---------- */
+header.top{display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:20px}
+.brand{display:flex;align-items:center;gap:11px;margin-right:auto}
+.brandmark{width:40px;height:40px;border:1.5px solid var(--line2);border-radius:12px;display:grid;place-items:center;color:var(--amber);background:var(--panel)}
+.brandtxt b{font:700 21px/1 'Baloo Bhai 2';display:block}
+.brandtxt small{font:400 9.5px/1 'Space Mono';letter-spacing:.24em;color:var(--dim);display:block;margin-top:4px}
+.verchip{font:700 10px 'Space Mono';letter-spacing:.14em;color:var(--amber);border:1.5px solid #4A3B21;background:#191309;border-radius:7px;padding:3px 6px;flex:none}
+.netpill{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.06em;border:1px solid var(--line);border-radius:999px;padding:6px 11px;color:var(--dim);white-space:nowrap}
+.netpill .dot{width:7px;height:7px;border-radius:50%;background:#6E6455}
+.netpill.wait .dot{background:#C79A5B;animation:blink 1.2s infinite}
+.netpill.on .dot{background:var(--amber)}
+.netpill.off .dot{background:var(--red)}
+.netpill.live{border-color:rgba(255,92,73,.5);color:#FFB3A6}
+.netpill.live .dot{background:var(--red);animation:blink 1.1s infinite}
+
+/* ---------- ચેતવણી-પટ્ટી ---------- */
+.ebanner{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:12px 14px;font-size:13.5px;line-height:1.65;margin-bottom:18px}
+.ebanner svg{flex:none;margin-top:2px}
+.ebanner.bad{background:rgba(255,92,73,.09);border:1.5px solid #6B2C23;color:#FFB3A6}
+.ebanner.warn{background:rgba(255,180,84,.07);border:1.5px solid #4A3B21;color:#F0C88E}
+
+/* ---------- ટાઈપોગ્રાફી ---------- */
+.eyebrow{font:400 11px 'Space Mono';letter-spacing:.22em;color:#C79A5B}
+h1{font:700 clamp(30px,8.4vw,40px)/1.3 'Baloo Bhai 2';margin:10px 0 12px}
+h1 em{font-style:normal;color:var(--amber)}
+.lede{color:var(--dim);font-size:16px;line-height:1.65;max-width:46ch}
+.lede b,.steps b,.note b{color:#F0C88E;font-weight:600}
+.hintline{margin-top:14px;text-align:center;color:var(--dim);font-size:13.5px;line-height:1.65}
+.hintline svg{vertical-align:-3px;color:var(--amber)}
+
+/* ---------- હોમ ---------- */
+.choices{display:flex;flex-direction:column;gap:13px;margin:28px 0 8px}
+.choice{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:18px 16px;border-radius:18px;cursor:pointer;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font-family:'Hind Vadodara';transition:transform .12s ease}
+.choice:active{transform:scale(.985)}
+.choice .icbox{flex:none;width:48px;height:48px;border-radius:13px;display:grid;place-items:center}
+.choice strong{font:700 19px/1.25 'Baloo Bhai 2';display:block}
+.choice .ct span{display:block;color:var(--dim);font-size:13.5px;margin-top:4px;line-height:1.45}
+.choice .chev{margin-left:auto;color:var(--dim)}
+.choice.gold{background:var(--amber);border-color:var(--amber);color:#231503;box-shadow:0 4px 0 #7E5312}
+.choice.gold:active{box-shadow:0 1px 0 #7E5312}
+.choice.gold .ct span{color:#5C3D10}
+.choice.gold .icbox{background:#231503;color:var(--amber)}
+.choice.gold .chev{color:#5C3D10}
+.choice.plain .icbox{background:#241D13;color:var(--amber)}
+.howto{margin-top:36px;border-top:1px solid var(--line);padding-top:22px}
+.steps{list-style:none;margin-top:14px}
+.steps li{display:flex;gap:13px;padding:13px 0;border-bottom:1px dashed #262015}
+.steps li:last-child{border-bottom:0}
+.steps .num{flex:none;font:700 12px 'Space Mono';color:var(--amber);border:1.5px solid #4A3B21;background:#191309;padding:5px 7px;border-radius:8px;height:fit-content;margin-top:2px}
+.steps p{font-size:15px;line-height:1.62}
+.note{display:flex;gap:11px;margin-top:20px;background:#14100A;border:1px solid #372C19;border-radius:14px;padding:14px 15px;color:var(--dim);font-size:13.5px;line-height:1.7}
+.note svg{flex:none;color:var(--amber);margin-top:2px}
+
+/* ---------- વ્યૂ / પેનલ ---------- */
+.view{animation:viewIn .4s ease both}
+@keyframes viewIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.viewhead{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.viewhead h2{font:700 26px/1.2 'Baloo Bhai 2';margin-top:3px}
+.backbtn{width:42px;height:42px;flex:none;border-radius:12px;border:1.5px solid var(--line2);background:var(--panel);color:var(--dim);display:grid;place-items:center;cursor:pointer}
+.backbtn:active{transform:scale(.93)}
+
+/* ---------- બટન ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font:600 15.5px/1 'Hind Vadodara';padding:14px 20px;border-radius:14px;border:1.5px solid transparent;cursor:pointer;color:var(--ink);background:var(--panel2);text-decoration:none;transition:transform .12s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(2px)}
+.btn.primary{background:var(--amber);color:#231503;box-shadow:0 4px 0 #7E5312;border-color:#F9C87E}
+.btn.primary:active{box-shadow:0 1px 0 #7E5312}
+.btn.ghost{background:transparent;border-color:#4B3D25;color:#F0C88E}
+.btn.danger{background:rgba(255,92,73,.09);border-color:#6B2C23;color:#FF9C8D}
+.btn.sm{padding:11px 13px;font-size:13.5px}
+.btn.big{width:100%;padding:16px;font-size:17px}
+.btn:disabled{opacity:.45;pointer-events:none}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:110px}
+
+/* ---------- કોડ ટાઈલ્સ / ઈનપુટ ---------- */
+.codetiles{display:flex;gap:9px;justify-content:center;margin:26px 0 16px;min-height:62px}
+.codetiles b{width:50px;height:62px;display:grid;place-items:center;font:700 28px 'Space Mono';color:var(--amber);background:#1A140C;border:1.5px solid #3C2F1B;border-radius:13px;position:relative;animation:tileIn .45s cubic-bezier(.2,.9,.3,1.25) backwards}
+.codetiles b::after{content:"";position:absolute;left:9px;right:9px;bottom:9px;height:2px;border-radius:2px;background:rgba(255,180,84,.3)}
+@keyframes tileIn{from{opacity:0;transform:translateY(12px) scale(.85)}to{opacity:1;transform:none}}
+.codeIn{display:flex;gap:8px;justify-content:center;margin:24px 0 18px}
+.codeIn input{width:47px;height:60px;text-align:center;font:700 26px 'Space Mono';color:var(--amber);background:#1A140C;border:1.5px solid #3C2F1B;border-radius:13px;outline:none;caret-color:var(--amber)}
+.codeIn input:focus{border-color:var(--amber);background:#221A0F}
+@media (max-width:350px){.codeIn input{width:41px;height:54px;font-size:22px}.codeIn{gap:6px}}
+
+/* ---------- રાહ જોવાની લાઈન ---------- */
+.waitline{display:flex;align-items:center;gap:11px;margin-top:22px;color:var(--dim);font-size:14.5px}
+.bars{display:inline-flex;align-items:flex-end;gap:3px;height:16px;flex:none}
+.bars i{width:4px;border-radius:2px;background:var(--amber);animation:bar 1s ease-in-out infinite}
+.bars i:nth-child(2){animation-delay:.15s}.bars i:nth-child(3){animation-delay:.3s}.bars i:nth-child(4){animation-delay:.45s}
+@keyframes bar{0%,100%{height:5px}50%{height:16px}}
+
+/* ---------- તપાસ-પગલાં ---------- */
+.diagbox{margin-top:16px;border:1px dashed #3A2F1C;border-radius:12px;padding:12px 14px}
+.drow{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:13.5px;color:var(--dim)}
+.drow i{width:9px;height:9px;border-radius:50%;border:2px solid #5A4E3A;flex:none}
+.drow.run i{border-color:var(--amber);animation:blink 1s infinite}
+.drow.ok i{border-color:var(--amber);background:var(--amber)}
+.drow.ok{color:#F0C88E}
+.drow.fail i{border-color:var(--red);background:var(--red)}
+.drow.fail{color:#FF9C8D}
+.diagfoot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:9px;border-top:1px dashed #2E2517}
+.diagfoot span{font:400 10.5px 'Space Mono';letter-spacing:.14em;color:#8A8070}
+.linkbtn{background:none;border:none;color:#F0C88E;font:600 13px 'Hind Vadodara';text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px}
+.kaline{margin-top:8px;text-align:center;font:400 10px 'Space Mono';letter-spacing:.16em;color:#8A8070}
+
+/* ---------- વિનંતિ-કાર્ડ ---------- */
+.reqcard{border:1.5px solid #4B3D25;background:var(--panel);border-radius:18px;padding:22px 18px;text-align:center;animation:tileIn .4s ease both}
+.reqcard .reqicon{width:58px;height:58px;margin:0 auto 14px;border-radius:16px;background:#241D13;color:var(--amber);display:grid;place-items:center}
+.reqcard h3{font:700 21px 'Baloo Bhai 2';margin-bottom:8px}
+.reqcard>p{color:var(--dim);font-size:14.5px;line-height:1.65}
+.reqcard .row{margin-top:18px}
+.errtext{margin-top:14px;color:#FF9C8D;font-size:13.5px;line-height:1.6;display:flex;gap:8px;align-items:flex-start;text-align:left}
+.errtext svg{flex:none;margin-top:2px}
+.errtext.center{justify-content:center;text-align:center}
+.camfb{margin-top:16px;border-top:1px dashed #3A2F1C;padding-top:16px}
+.camfb>p{color:var(--dim);font-size:13.5px;line-height:1.6;margin-bottom:12px}
+
+/* ---------- LIVE બાર ---------- */
+.livebar{display:flex;align-items:center;gap:10px;border:1.5px solid rgba(255,92,73,.5);background:rgba(255,92,73,.07);border-radius:14px;padding:11px 15px;margin-bottom:16px;font-size:15px}
+.livebar b{color:#FFB3A6;font:700 13px 'Space Mono';letter-spacing:.12em}
+.livebar .kind{font-size:12.5px;color:#FF9C8D;border:1px solid rgba(255,92,73,.4);padding:2px 9px;border-radius:999px}
+.livebar .mono{margin-left:auto;font-weight:700;font-size:13px;color:#FFB3A6}
+.livedot{width:9px;height:9px;border-radius:50%;background:var(--red);animation:blink 1.1s infinite;flex:none}
+@keyframes blink{50%{opacity:.2}}
+
+/* ---------- મોનિટર ---------- */
+.codechip{font:700 12px 'Space Mono';letter-spacing:.18em;color:#8F846F;text-align:center;margin-bottom:12px}
+.stage{position:relative;width:min(100%,calc(60vh * 4 / 3));aspect-ratio:4/3;margin:0 auto;background:#080604;border:1.5px solid #3C2F1B;border-radius:16px;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+.stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+.tick{position:absolute;width:15px;height:15px;border:2px solid var(--amber);opacity:.9;z-index:4;pointer-events:none}
+.tk1{top:9px;left:9px;border-right:0;border-bottom:0}
+.tk2{top:9px;right:9px;border-left:0;border-bottom:0}
+.tk3{bottom:9px;left:9px;border-right:0;border-top:0}
+.tk4{bottom:9px;right:9px;border-left:0;border-top:0}
+.stageOverlay{position:absolute;inset:0;z-index:5;display:grid;place-items:center;background:rgba(8,6,3,.55);text-align:center;padding:20px}
+.stageOverlay .mtag{display:block;font:700 11px 'Space Mono';letter-spacing:.24em;color:var(--amber);margin-bottom:9px}
+.stageOverlay.bad .mtag{color:var(--red)}
+.stageOverlay p{color:var(--ink);font-size:15px;line-height:1.65;max-width:30ch}
+.liveTag{position:absolute;top:10px;left:10px;z-index:6;display:flex;align-items:center;gap:7px;background:rgba(10,7,4,.72);border:1px solid rgba(255,92,73,.5);border-radius:999px;padding:5px 11px;font:700 11px 'Space Mono';letter-spacing:.14em;color:#FFB3A6;backdrop-filter:blur(3px)}
+.liveTag .t{color:#F3EDDE}
+.playBig{position:absolute;inset:0;z-index:7;display:grid;place-items:center;background:rgba(8,6,3,.45);border:0;cursor:pointer}
+.playBig .pp{width:64px;height:64px;border-radius:50%;border:2px solid var(--amber);display:grid;place-items:center;color:var(--amber);background:rgba(20,14,6,.85)}
+.ripple{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border:2px solid var(--amber);border-radius:50%;pointer-events:none;z-index:8;animation:rip .55s ease-out forwards}
+@keyframes rip{from{transform:scale(.5);opacity:1}to{transform:scale(4.2);opacity:0}}
+.stage:fullscreen{width:100vw;height:100vh;max-height:none;aspect-ratio:auto;border-radius:0;border:none}
+.stage:-webkit-full-screen{width:100vw;height:100vh;max-height:none;aspect-ratio:auto;border-radius:0;border:none}
+
+/* ---------- કંટ્રોલ ---------- */
+.controls{display:flex;gap:10px;margin-top:16px}
+.ctrl{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;padding:13px 6px;border-radius:14px;border:1.5px solid #4B3D25;background:var(--panel);color:var(--ink);font:600 13.5px 'Hind Vadodara';cursor:pointer}
+.ctrl svg{color:var(--amber)}
+.ctrl:active{transform:translateY(2px)}
+.ctrl.stop{border-color:#6B2C23;color:#FF9C8D}
+.ctrl.stop svg{color:#FF9C8D}
+
+/* ---------- પોઇન્ટર ઓવરલે ---------- */
+#pointerLayer{position:fixed;inset:0;z-index:900;pointer-events:none}
+.pt{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 3px rgba(255,92,73,.25)}
+.pt::before,.pt::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--red);animation:ring 1.15s ease-out infinite}
+.pt::after{animation-delay:.38s}
+@keyframes ring{from{transform:scale(.5);opacity:1}to{transform:scale(3.6);opacity:0}}
+.pt b{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:#241009;border:1px solid #7A2E22;color:#FFC9BF;font:600 12px 'Hind Vadodara';padding:3px 9px;border-radius:8px;white-space:nowrap}
+.pt.flip b{top:auto;bottom:-32px}
+
+/* ---------- ટોસ્ટ / મોડલ / ફૂટર ---------- */
+#toasts{position:fixed;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1000;pointer-events:none}
+.toast{background:#241C10;border:1px solid #4A3B22;color:var(--ink);font:500 14px 'Hind Vadodara';padding:10px 16px;border-radius:12px;max-width:88%;opacity:0;transform:translateY(8px);transition:.25s;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.toast.in{opacity:1;transform:none}
+.toast.err{border-color:#6B2C23;color:#FFB3A6}
+.modal{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;background:rgba(5,4,2,.78);backdrop-filter:blur(3px);padding:20px}
+.modalbox{width:min(420px,100%);background:var(--panel);border:1.5px solid #4B3D25;border-radius:18px;padding:18px;animation:viewIn .3s ease}
+.modalbox img{width:100%;border-radius:10px;border:1px solid var(--line);margin:12px 0 14px;display:block;background:#000}
+.modalbox .tiny{color:var(--dim);font-size:12.5px;line-height:1.6;margin-top:12px;text-align:center}
+footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;color:var(--dim);font-size:13px;line-height:1.7}
+footer .mono{font:400 10.5px 'Space Mono';letter-spacing:.18em;color:#8A8070;margin-top:7px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- આઇકોન સ્પ્રાઈટ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-mark" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><rect x="9" y="9" width="11" height="11" rx="3"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="9" rx="2"/><path d="M12 2.5v6M8.6 5.9 12 2.5l3.4 3.4M9 22h6"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S5.8 5.5 12 5.5 21.5 12 21.5 12 18.2 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3.2"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5.5A2.5 2.5 0 0 1 7.5 3H17"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.8"/><circle cx="6" cy="12" r="2.8"/><circle cx="18" cy="18.5" r="2.8"/><path d="M8.4 13.4l7.2 4.2M15.6 6.4 8.4 10.6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6.5 9.2 17.3 4 12.1"/></symbol>
+  <symbol id="i-max" viewBox="0 0 24 24"><path d="M8.5 3.5H5A1.5 1.5 0 0 0 3.5 5v3.5M15.5 3.5H19A1.5 1.5 0 0 1 20.5 5v3.5M15.5 20.5H19a1.5 1.5 0 0 0 1.5-1.5v-3.5M8.5 20.5H5A1.5 1.5 0 0 1 3.5 19v-3.5"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M14.2 4.5H9.8L8 7H4.5A1.5 1.5 0 0 0 3 8.5v9A1.5 1.5 0 0 0 4.5 19h15a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 19.5 7H16l-1.8-2.5Z"/><circle cx="12" cy="12.8" r="3.4"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11.5 18.5 5 12l6.5-6.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.4 4 2.3 18a2 2 0 0 0 1.7 3h16a2 2 0 0 0 1.7-3L13.6 4a2 2 0 0 0-3.2 0Z"/><path d="M12 9.5v4.5M12 17.5h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></symbol>
+  <symbol id="i-tap" viewBox="0 0 24 24"><path d="M3.5 3.5 10.3 20l2.4-7 7-2.4L3.5 3.5Z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 3.5v5h-5"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9.5 5.5 16 12l-6.5 6.5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5L8 5.5Z"/></symbol>
+</svg>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <span class="brandmark"><svg class="ic" width="20" height="20"><use href="#i-mark"/></svg></span>
+      <span class="brandtxt"><b>દર્પણ</b><small>DARPAAN · SCREEN LINK</small></span>
+      <span class="verchip">V4</span>
+    </div>
+    <div class="netpill mono" id="netPill"><i class="dot"></i><span id="netLbl">સ્ટેન્ડબાય</span></div>
+  </header>
+
+  <div class="ebanner" id="envBanner" hidden>
+    <svg class="ic" width="18" height="18"><use href="#i-alert"/></svg>
+    <span id="envMsg"></span>
+  </div>
+
+  <!-- ================= હોમ ================= -->
+  <section class="view" id="view-home">
+    <p class="eyebrow">CONSENT-BASED · P2P · WEBRTC</p>
+    <h1>તમારી સ્ક્રીન,<br>સામેના ફોન પર <em>— લાઇવ.</em></h1>
+    <p class="lede">બે ફોન, એક કોડ અને સામેની વ્યક્તિની મંજૂરી — એટલું જ. કોઈ એપ નહીં, લોગિન નહીં, અને વિડિયો ક્યાંય સેવ નહીં થતો.</p>
+
+    <div class="choices">
+      <button class="choice gold" id="btn-role-share">
+        <span class="icbox"><svg class="ic" width="24" height="24"><use href="#i-up"/></svg></span>
+        <span class="ct"><strong>મારી સ્ક્રીન બતાવવી છે</strong><span>કોડ બનાવો અને જેને બતાવવું છે એને મોકલો</span></span>
+        <svg class="ic chev" width="20" height="20"><use href="#i-chev"/></svg>
+      </button>
+      <button class="choice plain" id="btn-role-watch">
+        <span class="icbox"><svg class="ic" width="24" height="24"><use href="#i-eye"/></svg></span>
+        <span class="ct"><strong>બીજાની સ્ક્રીન જોવી છે</strong><span>કોડ નાખો — મંજૂરી મળતાં લાઇવ દેખાશે</span></span>
+        <svg class="ic chev" width="20" height="20"><use href="#i-chev"/></svg>
+      </button>
+    </div>
+
+    <div class="howto">
+      <p class="eyebrow">કેવી રીતે ચાલે — 3 સ્ટેપ</p>
+      <ol class="steps">
+        <li><span class="num">01</span><p>આ ફાઇલ <b>બંને પક્ષે Chrome/Safari બ્રાઉઝરમાં</b> ખોલો. WhatsApp માં ફાઇલ પર લાંબો ટાપ → ⋮ → <b>Open with → Chrome</b>.</p></li>
+        <li><span class="num">02</span><p>જેની સ્ક્રીન બતાવવી છે એ <b>"મારી સ્ક્રીન બતાવવી છે"</b> દબાવે → 6 અક્ષરનો કોડ મળે → એ કોડ જોનારને આપી દે. <b>પેજ દેખાતું રાખો — બેકગ્રાઉન્ડમાં ન મૂકતા!</b></p></li>
+        <li><span class="num">03</span><p>જોનાર <b>"બીજાની સ્ક્રીન જોવી છે"</b>માં કોડ નાખે → શેર કરનારના ફોનમાં "મંજૂર કરો" આવે → સ્ક્રીન લાઇવ!</p></li>
+      </ol>
+      <div class="note">
+        <svg class="ic" width="18" height="18"><use href="#i-lock"/></svg>
+        <span>ચૂપચાપ કોઈની સ્ક્રીન જોઈ શકાતી નથી — સામેની વ્યક્તિએ દર વખતે પોતાના ફોન પર જ "મંજૂર કરો" દબાવવું પડે. એ બ્રાઉઝરનો સુરક્ષા-નિયમ છે — અને સારો નિયમ છે.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= શેર કરનાર ================= -->
+  <section class="view" id="view-share" hidden>
+    <div class="viewhead">
+      <button class="backbtn" id="shareBack" aria-label="પાછળ"><svg class="ic" width="20" height="20"><use href="#i-back"/></svg></button>
+      <div><p class="eyebrow">ROLE · SHARER</p><h2>તમારી સ્ક્રીન બતાવો</h2></div>
+    </div>
+
+    <div id="share-setup">
+      <p class="lede">નીચેનો કોડ જેને તમારી સ્ક્રીન જોવી છે એમને WhatsApp/કૉલમાં આપો. એ આ જ પેજમાં <b>"બીજાની સ્ક્રીન જોવી છે"</b> પસંદ કરીને કોડ નાખશે.</p>
+      <div class="codetiles" id="codeTiles"></div>
+      <div class="row">
+        <button class="btn ghost sm" id="btnCopy"><svg class="ic" width="16" height="16"><use href="#i-copy"/></svg>કોપી</button>
+        <button class="btn ghost sm" id="btnSend"><svg class="ic" width="16" height="16"><use href="#i-send"/></svg>મોકલો</button>
+        <button class="btn ghost sm" id="btnNewCode"><svg class="ic" width="16" height="16"><use href="#i-refresh"/></svg>નવો કોડ</button>
+        <button class="btn ghost sm" id="btnSelfTest"><svg class="ic" width="16" height="16"><use href="#i-play"/></svg>આ જ ફોનમાં ટેસ્ટ</button>
+      </div>
+      <div class="waitline"><span class="bars"><i></i><i></i><i></i><i></i></span><span id="shareStatus">…</span></div>
+      <div class="diagbox" id="diagA"></div>
+      <p class="kaline mono" hidden></p>
+      <div class="note">
+        <svg class="ic" width="18" height="18"><use href="#i-alert"/></svg>
+        <span><b>જોડાણ ન થાય તો આ ચકાસો:</b> 1) બંને પક્ષે આ <b>V4</b> ફાઇલ જ ચાલવી જોઈએ 2) ઉપર લાલ ચેતવણી-પટ્ટી ન હોવી જોઈએ 3) <b>કોડ બતાવતી વખતે આ પેજ દેખાતું રાખો</b> — બેકગ્રાઉન્ડ ટૅબ બ્રાઉઝર ઊંઘાડી દે છે એટલે જોડાણ નથી થતું (V4 એ પેજને જાગતું રાખે છે છતાં દેખાતું રાખવું શ્રેષ્ઠ) 4) પેજ રિફ્રેશ થાય તો કોડ બદલાઈ જાય 5) ખાતરી માટે <b>"આ જ ફોનમાં ટેસ્ટ"</b> દબાવો.</span>
+      </div>
+    </div>
+
+    <div id="share-request" hidden>
+      <div class="reqcard">
+        <div class="reqicon"><svg class="ic" width="26" height="26"><use href="#i-up"/></svg></div>
+        <h3>જોડાણ મળ્યું!</h3>
+        <p>સામેની વ્યક્તિ તમારી સ્ક્રીન <b>જોવા માંગે છે</b>. તમે મંજૂરી આપો એટલે જ શેરિંગ શરૂ થશે — પછી ગમે ત્યારે બંધ કરી શકો.</p>
+        <div class="row">
+          <button class="btn primary" id="btnAllow"><svg class="ic" width="18" height="18"><use href="#i-check"/></svg>મંજૂર કરો</button>
+          <button class="btn ghost" id="btnDeny"><svg class="ic" width="18" height="18"><use href="#i-x"/></svg>ના પાડો</button>
+        </div>
+        <p class="errtext" id="shareErr" hidden><svg class="ic" width="16" height="16"><use href="#i-alert"/></svg><span></span></p>
+        <div class="camfb" id="camFallback" hidden>
+          <p>આ બ્રાઉઝર સ્ક્રીન-શેર આપતું નથી (iPhone/iPad માં સામાન્ય રીતે નહીં). બદલામાં કૅમેરા બતાવી શકાય:</p>
+          <div class="row">
+            <button class="btn primary sm" id="btnCam"><svg class="ic" width="16" height="16"><use href="#i-cam"/></svg>કૅમેરાથી બતાવો</button>
+            <button class="btn ghost sm" id="btnFlip"><svg class="ic" width="16" height="16"><use href="#i-refresh"/></svg><span id="camFaceLabel">પાછળનો</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="share-active" hidden>
+      <div class="livebar"><span class="livedot"></span><b>LIVE</b><span class="kind" id="shareKind">સ્ક્રીન</span><span class="mono" id="shareTimer">00:00</span></div>
+      <p class="lede">તમારી સ્ક્રીન સામેના ફોન પર ચાલી રહી છે. બીજી એપ ખોલી શકો છો — શેરિંગ ચાલુ રહેશે.</p>
+      <p class="hintline">સામેની વ્યક્તિ વિડિયો પર ટાપ કરીને તમને સ્થળ બતાવી શકે છે — ત્યારે ફોન ધ્રુજશે; આ પેજ સામે હોય તો લાલ નિશાની પણ દેખાશે.</p>
+      <div class="row" style="margin-top:16px">
+        <button class="btn danger big" id="btnStopShare"><svg class="ic" width="18" height="18"><use href="#i-stop"/></svg>શેરિંગ બંધ કરો</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= જોનાર ================= -->
+  <section class="view" id="view-watch" hidden>
+    <div class="viewhead">
+      <button class="backbtn" id="watchBack" aria-label="પાછળ"><svg class="ic" width="20" height="20"><use href="#i-back"/></svg></button>
+      <div><p class="eyebrow">ROLE · VIEWER</p><h2>બીજાની સ્ક્રીન જુઓ</h2></div>
+    </div>
+
+    <div id="watch-enter">
+      <p class="lede">શેર કરનારે આપેલો <b>6 અક્ષરનો કોડ</b> નાખો. (કોડ મેસેજમાં આવ્યો હોય તો પેસ્ટ પણ કરી શકો.)</p>
+      <div class="codeIn">
+        <input type="text" maxlength="2" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="કોડ અક્ષર 1">
+        <input type="text" maxlength="2" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="કોડ અક્ષર 2">
+        <input type="text" maxlength="2" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="કોડ અક્ષર 3">
+        <input type="text" maxlength="2" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="કોડ અક્ષર 4">
+        <input type="text" maxlength="2" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="કોડ અક્ષર 5">
+        <input type="text" maxlength="2" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="કોડ અક્ષર 6">
+      </div>
+      <button class="btn primary big" id="btnConnect"><svg class="ic" width="18" height="18"><use href="#i-eye"/></svg>જોડાવો</button>
+      <p class="errtext center" id="watchErr" hidden><svg class="ic" width="16" height="16"><use href="#i-alert"/></svg><span></span></p>
+      <p class="hintline">જોડાયા પછી શેર કરનારના ફોનમાં "મંજૂર કરો" દબાવવાનું રહેશે — એમની મંજૂરી વગર કંઈ દેખાશે નહીં. પ્રથમ પ્રયાસ નિષ્ફળ થાય તો V4 આપોઆપ બીજો પ્રયાસ કરશે.</p>
+      <div class="note">
+        <svg class="ic" width="18" height="18"><use href="#i-alert"/></svg>
+        <span><b>જોડાણ ન થાય તો આ ચકાસો:</b> 1) બંને પક્ષે આ <b>V4</b> ફાઇલ જ 2) બંનેમાં ઇન્ટરનેટ ચાલુ 3) <b>શેર કરનારનું પેજ આગળ (દેખાતું) છે?</b> — બેકગ્રાઉન્ડ પેજ ઊંઘી જાય છે એટલે જોડાણ નથી થતું (એને પેજ સામે લાવવા કહો અને "ફરી પ્રયાસ" દબાવો) 4) શેર કરનારનો પેજ રિફ્રેશ ન થયો હોય (થાય તો કોડ બદલાઈ જાય) 5) કોડના બધા 6 અક્ષર સાચા.</span>
+      </div>
+    </div>
+
+    <div id="watch-screen" hidden>
+      <p class="codechip" id="watchCodeChip"></p>
+      <div class="stage" id="stage">
+        <i class="tick tk1"></i><i class="tick tk2"></i><i class="tick tk3"></i><i class="tick tk4"></i>
+        <canvas id="noiseCanvas"></canvas>
+        <video id="remoteVideo" playsinline webkit-playsinline autoplay hidden></video>
+        <div class="stageOverlay" id="stageOverlay">
+          <div>
+            <span class="mtag" id="stageTag">SIGNAL · STANDBY</span>
+            <p id="stageMsg">તૈયાર…</p>
+          </div>
+        </div>
+        <div class="liveTag" id="liveTag" hidden><span class="livedot"></span>LIVE<span class="t" id="watchTimer">00:00</span></div>
+        <button class="playBig" id="playBlock" hidden aria-label="ચલાવો"><span class="pp"><svg class="ic" width="26" height="26"><use href="#i-play"/></svg></span></button>
+      </div>
+      <div class="diagbox" id="diagB"></div>
+      <p class="kaline mono" hidden></p>
+      <p class="hintline" id="watchHint" hidden></p>
+      <div class="controls">
+        <button class="ctrl" id="btnWatchCancel" hidden><svg class="ic" width="20" height="20"><use href="#i-x"/></svg>રદ કરો</button>
+      </div>
+      <div class="controls" id="liveCtrls" hidden>
+        <button class="ctrl" id="btnSnap"><svg class="ic" width="20" height="20"><use href="#i-cam"/></svg>સ્નેપશોટ</button>
+        <button class="ctrl" id="btnFull"><svg class="ic" width="20" height="20"><use href="#i-max"/></svg>ફુલસ્ક્રીન</button>
+        <button class="ctrl stop" id="btnLeave"><svg class="ic" width="20" height="20"><use href="#i-stop"/></svg>બંધ કરો</button>
+      </div>
+      <div class="controls" id="endCtrls" hidden>
+        <button class="ctrl" id="btnRejoin"><svg class="ic" width="20" height="20"><use href="#i-refresh"/></svg>ફરી પ્રયાસ</button>
+        <button class="ctrl stop" id="btnWatchBack2"><svg class="ic" width="20" height="20"><use href="#i-back"/></svg>પાછળ</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>વિડિયો સીધો એક ફોનથી બીજા ફોન પર જાય છે (WebRTC) — ક્યાંય સેવ થતો નથી. મંજૂરી હંમેશા શેર કરનાર પાસે રહે છે.</p>
+    <p class="mono">DARPAAN V4 — એક જ HTML ફાઇલ</p>
+  </footer>
+</div>
+
+<div id="pointerLayer"></div>
+<div id="toasts"></div>
+
+<div class="modal" id="snapModal" hidden>
+  <div class="modalbox">
+    <p class="eyebrow">SNAPSHOT</p>
+    <img id="snapImg" alt="સ્નેપશોટ">
+    <div class="row">
+      <a class="btn primary sm" id="snapLink" download><svg class="ic" width="16" height="16"><use href="#i-copy"/></svg>ડાઉનલોડ</a>
+      <button class="btn ghost sm" id="snapClose">બંધ કરો</button>
+    </div>
+    <p class="tiny">ડાઉનલોડ ન થાય તો ફોટા પર લાંબો ટાપ કરીને "Save Image" કરો.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+'use strict';
+
+/* ============ ટૂલ્સ ============ */
+const $ = s => document.querySelector(s);
+const on = (el, ev, fn, o) => el && el.addEventListener(ev, fn, o);
+const buzz = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+
+/* ============ લોગ (રિપોર્ટ માટે) ============ */
+const LOG = [];
+function log(m) {
+  const d = new Date();
+  const ts = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') + ':' + String(d.getSeconds()).padStart(2, '0');
+  LOG.push(ts + ' ' + m);
+  if (LOG.length > 160) LOG.shift();
+}
+window.addEventListener('error', e => log('JS-ERR ' + (e.message || '?') + ' @' + (e.lineno || '?')));
+window.addEventListener('unhandledrejection', e => log('PROMISE-ERR ' + (e.reason && e.reason.message || e.reason || '?')));
+
+/* ============ ઓડિયો / ચાઇમ ============ */
+let actx = null;
+function ensureAudio() {
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+  } catch (e) {}
+}
+function chime() {
+  try {
+    ensureAudio();
+    const t = actx.currentTime;
+    [[659, 0], [880, .13]].forEach(([f, d]) => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(.0001, t + d);
+      g.gain.exponentialRampToValueAtTime(.22, t + d + .02);
+      g.gain.exponentialRampToValueAtTime(.0001, t + d + .28);
+      o.connect(g); g.connect(actx.destination);
+      o.start(t + d); o.stop(t + d + .3);
+    });
+  } catch (e) {}
+}
+on(document, 'pointerdown', ensureAudio, { once: true });
+
+/* ============ ટોસ્ટ / નેટ-પિલ / ટાઈમર ============ */
+const toasts = $('#toasts');
+function toast(msg, err) {
+  const t = document.createElement('div');
+  t.className = 'toast' + (err ? ' err' : '');
+  t.textContent = msg;
+  toasts.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('in'));
+  setTimeout(() => { t.classList.remove('in'); setTimeout(() => t.remove(), 300); }, 2800);
+  while (toasts.children.length > 3) toasts.firstChild.remove();
+}
+const netPill = $('#netPill'), netLbl = $('#netLbl');
+function setNet(label, cls) { netLbl.textContent = label; netPill.className = 'netpill mono ' + cls; }
+let tInt = null, t0 = 0, tEl = null;
+function startTimer(el) {
+  stopTimer(); t0 = Date.now(); tEl = el; el.textContent = '00:00';
+  tInt = setInterval(() => {
+    const s = (Date.now() - t0) / 1000 | 0;
+    tEl.textContent = String(s / 60 | 0).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  }, 1000);
+}
+function stopTimer() { clearInterval(tInt); tInt = null; }
+
+/* ============ ટીવી-સ્ટેટિક ============ */
+const noise = {
+  cv: null, ctx: null, run: false,
+  init(cv) { this.cv = cv; this.ctx = cv.getContext('2d'); },
+  start() {
+    if (this.run || !this.ctx) return;
+    this.run = true;
+    const cv = this.cv, ctx = this.ctx, w = cv.width = 128, h = cv.height = 96;
+    const img = ctx.createImageData(w, h), d = img.data;
+    const loop = () => {
+      if (!this.run) return;
+      for (let i = 0; i < d.length; i += 4) {
+        const v = Math.random() * 165 + 15 | 0;
+        d[i] = v; d[i + 1] = v * .86 | 0; d[i + 2] = v * .6 | 0; d[i + 3] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+      setTimeout(() => requestAnimationFrame(loop), 70);
+    };
+    loop();
+  },
+  stop() { this.run = false; }
+};
+
+/* ============ ICE: વધુ STUN + TURN રિલે ============ */
+const ICE = {
+  iceServers: [
+    { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302', 'stun:stun.cloudflare.com:3478', 'stun:global.stun.twilio.com:3478'] },
+    { urls: 'turn:openrelay.metered.ca:80',  username: 'openrelayproject', credential: 'openrelayproject' },
+    { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
+    { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' }
+  ]
+};
+
+/* ============ PeerJS લોડ — 3 CDN ============ */
+function loadPeerLib(done, fail) {
+  if (window.Peer) return done();
+  const urls = [
+    'https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.2/peerjs.min.js',
+    'https://cdn.jsdelivr.net/npm/peerjs@1.5.2/dist/peerjs.min.js',
+    'https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js'
+  ];
+  let i = 0;
+  (function next() {
+    if (i >= urls.length) { log('LIB fail all CDN'); return fail(); }
+    log('LIB try cdn' + (i + 1));
+    const s = document.createElement('script');
+    s.src = urls[i++];
+    s.onload = () => (window.Peer ? (log('LIB ok'), done()) : next());
+    s.onerror = next;
+    document.head.appendChild(s);
+  })();
+}
+
+/* ============ તપાસ-પગલાં ============ */
+const DIAG = { lib: 'wait', sig: 'wait', link: 'wait', video: 'wait' };
+const DIAG_META = [
+  ['lib',   '1 · લાઇબ્રેરી લોડ'],
+  ['sig',   '2 · સિગ્નલ સર્વર'],
+  ['link',  '3 · બીજો ફોન જોડાયો'],
+  ['video', '4 · વિડિયો સ્ટ્રીમ']
+];
+const DIAG_LBL = { wait: 'રાહ', run: 'ચાલુ', ok: 'ઓકે', fail: 'નિષ્ફળ' };
+let lastErr = '—';
+const diagBoxes = [$('#diagA'), $('#diagB')];
+function renderDiag() {
+  const rows = DIAG_META.map(([id, lbl]) =>
+    '<div class="drow ' + DIAG[id] + '"><i></i><span>' + lbl + '</span></div>').join('');
+  const foot = '<div class="diagfoot"><span>CONNECTION CHECK</span>' +
+    '<button class="linkbtn" type="button" data-act="rep">રિપોર્ટ કોપી</button></div>';
+  diagBoxes.forEach(b => { if (b) b.innerHTML = rows + foot; });
+}
+function setDiag(id, st) { if (DIAG[id] === st) return; DIAG[id] = st; renderDiag(); }
+function resetDiag() { DIAG.lib = DIAG.sig = DIAG.link = DIAG.video = 'wait'; lastErr = '—'; renderDiag(); }
+diagBoxes.forEach(b => b && b.addEventListener('click', e => {
+  const t = e.target;
+  if (t && t.dataset && t.dataset.act === 'rep') copyReport();
+}));
+
+/* ============ KEEP-ALIVE: પેજ ઊંઘે નહીં ============
+   1) સાયલન્ટ ઓડિયો (0.00001 ગેઇન) — બ્રાઉઝર ટૅબને "ઓડિયો ચાલુ" ગણે છે → સસ્પેન્ડ નથી કરતો
+   2) સ્ક્રીન વેક-લોક — ડિસ્પ્લે બંધ નહીં થાય                          */
+const keepalive = {
+  osc: null, lock: null, on: false,
+  start() { this.on = true; this.audio(); this.wake(); this.note(); },
+  audio() {
+    if (!this.on || this.osc) return;
+    try {
+      ensureAudio();
+      if (!actx) return;
+      if (actx.state === 'suspended') actx.resume();
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = 1;          // અસ્પષ્ટ આવૃત્તિ — સંભળાય નહીં
+      g.gain.value = 0.00001;                          // સાયલન્ટ
+      o.connect(g); g.connect(actx.destination);
+      o.start();
+      this.osc = o;
+      log('KA audio on');
+      this.note();
+    } catch (e) { log('KA audio fail'); this.note(); }
+  },
+  async wake() {
+    if (!this.on) return;
+    try {
+      if ('wakeLock' in navigator && !(this.lock && !this.lock.released)) {
+        this.lock = await navigator.wakeLock.request('screen');
+        if (this.lock.addEventListener) this.lock.addEventListener('release', () => this.note());
+        log('KA wakelock on');
+        this.note();
+      }
+    } catch (e) { log('KA wakelock fail'); this.note(); }
+  },
+  note() {
+    const a = this.osc ? 'AUDIO ✓' : 'AUDIO ✗';
+    const l = (this.lock && !this.lock.released) ? 'WAKE-LOCK ✓' : 'WAKE-LOCK —';
+    const txt = this.on ? ('KEEP-ALIVE · ' + a + ' · ' + l) : '';
+    document.querySelectorAll('.kaline').forEach(el => { el.hidden = !this.on; el.textContent = txt; });
+  },
+  release() {
+    this.on = false;
+    try { this.osc && this.osc.stop(); } catch (e) {}
+    this.osc = null;
+    try { this.lock && this.lock.release(); } catch (e) {}
+    this.lock = null;
+    this.note();
+    log('KA off');
+  }
+};
+
+/* ============ એલિમેન્ટ ============ */
+const views = { home: $('#view-home'), share: $('#view-share'), watch: $('#view-watch') };
+const sharePanels = { setup: $('#share-setup'), request: $('#share-request'), active: $('#share-active') };
+const codeTiles = $('#codeTiles'), shareStatus = $('#shareStatus');
+const shareErr = $('#shareErr'), shareErrText = $('#shareErr span');
+const camFallback = $('#camFallback'), camFaceLabel = $('#camFaceLabel');
+const shareTimerEl = $('#shareTimer'), shareKindEl = $('#shareKind');
+const stage = $('#stage'), remoteVideo = $('#remoteVideo');
+const stageOverlay = $('#stageOverlay'), stageTag = $('#stageTag'), stageMsg = $('#stageMsg');
+const liveTag = $('#liveTag'), watchTimerEl = $('#watchTimer'), playBlock = $('#playBlock');
+const watchCodeChip = $('#watchCodeChip'), watchHint = $('#watchHint');
+const watchErr = $('#watchErr'), watchErrText = $('#watchErr span');
+const codeInputs = Array.from(document.querySelectorAll('.codeIn input'));
+const btnWatchCancel = $('#btnWatchCancel'), liveCtrls = $('#liveCtrls'), endCtrls = $('#endCtrls');
+const pointerLayer = $('#pointerLayer');
+const snapModal = $('#snapModal'), snapImg = $('#snapImg'), snapLink = $('#snapLink');
+const envBanner = $('#envBanner'), envMsg = $('#envMsg');
+
+/* ============ સ્થિતિ ============ */
+const S = {
+  role: null, phase: 'idle',
+  peer: null, code: null, conn: null, call: null, stream: null,
+  camFacing: 'environment', ptTimer: null,
+  connectTimeout: null, sigTO: null, waitHintTO: null,
+  wTimeoutHit: false
+};
+
+/* ============ વ્યૂ સ્વિચિંગ ============ */
+function showView(name) { Object.keys(views).forEach(k => views[k].hidden = k !== name); window.scrollTo(0, 0); }
+function showSharePanel(name) {
+  Object.keys(sharePanels).forEach(k => sharePanels[k].hidden = k !== name);
+  if (name === 'request') { shareErr.hidden = true; camFallback.hidden = true; }
+}
+function showWatchPanel(name) { $('#watch-enter').hidden = name !== 'enter'; $('#watch-screen').hidden = name !== 'screen'; }
+function syncWatchControls() {
+  btnWatchCancel.hidden = S.phase !== 'connecting';
+  liveCtrls.hidden = S.phase !== 'live';
+  endCtrls.hidden = S.phase !== 'ended';
+}
+function setStage(bad, tag, msg) {
+  stageOverlay.hidden = false;
+  stageOverlay.classList.toggle('bad', !!bad);
+  stageTag.textContent = tag; stageMsg.textContent = msg;
+}
+
+/* ============ એન્વાયર્નમેન્ટ ચેક ============ */
+function setBanner(level, msg) { envBanner.className = 'ebanner ' + level; envMsg.textContent = msg; envBanner.hidden = false; }
+function envRefresh() {
+  if (!navigator.onLine) { setBanner('bad', 'ઇન્ટરનેટ બંધ છે — પહેલા નેટવર્ક (WiFi/ડેટા) ચાલુ કરો.'); return; }
+  const p = location.protocol, ua = navigator.userAgent;
+  if (p === 'content:' || p === 'blob:' || p === 'about:') {
+    setBanner('bad', 'આ પેજ Chrome/Safari માં નહીં, WhatsApp/ફાઇલ-મેનેજરના પ્રિવ્યૂમાં ખુલ્યો છે — અહીં જોડાણ નહીં થાય. ફાઇલ પર લાંબો ટાપ → Open with → Chrome કરો.');
+    return;
+  }
+  if (/\bwv\b/.test(ua)) {
+    setBanner('bad', 'આ બીજી કોઈ એપના અંદરના બ્રાઉઝરમાં ખુલ્યું છે. બ્રાઉઝર મેનૂ (⋮) → "Open in Chrome" કરો.');
+    return;
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    setBanner('bad', 'આ બ્રાઉઝર આ ટૂલ માટે અયોગ્ય છે — કૃપા કરીને Chrome માં ખોલો.');
+    return;
+  }
+  if (p === 'http:' && !/(^|\.)localhost$|127\.0\.0\.1/.test(location.hostname)) {
+    setBanner('warn', 'http પર કૅમેરા/સ્ક્રીન બ્લોક થઈ શકે — જોડાણ ચાલશે. શ્રેષ્ઠ: ફાઇલ કે https લિંક થકી ખોલો.');
+    return;
+  }
+  if (/iPad|iPhone|iPod/.test(ua) || (ua.includes('Mac') && 'ontouchend' in document)) {
+    setBanner('warn', 'iPhone/iPad માં બ્રાઉઝર સ્ક્રીન-શેર આપતું નથી — શેર કરનાર તરફ "કૅમેરાથી બતાવો" વિકલ્પ વાપરવો પડશે.');
+    return;
+  }
+  envBanner.hidden = true;
+}
+
+/* ============ ICE વોચ (લોગ માટે) ============ */
+function watchIce(pc, who) {
+  if (!pc) return;
+  const seen = {};
+  pc.addEventListener('iceconnectionstatechange', () => {
+    const st = pc.iceConnectionState;
+    if (seen[st]) return;
+    if (st === 'connected' || st === 'completed' || st === 'failed' || st === 'disconnected' || st === 'closed') {
+      seen[st] = 1;
+      log(who + ' ice ' + st);
+      if (st === 'connected' || st === 'completed') logIcePair(pc, who);
+    }
+  });
+}
+async function logIcePair(pc, who) {
+  try {
+    const rs = await pc.getStats();
+    let pair = null;
+    rs.forEach(r => { if (r.type === 'candidate-pair' && r.state === 'succeeded' && (r.nominated || r.selected)) pair = r; });
+    if (!pair) rs.forEach(r => { if (r.type === 'candidate-pair' && r.state === 'succeeded' && !pair) pair = r; });
+    if (pair) {
+      const lc = rs.get(pair.localCandidateId), rc = rs.get(pair.remoteCandidateId);
+      log(who + ' pair L=' + (lc ? lc.candidateType : '?') + ' R=' + (rc ? rc.candidateType : '?'));
+    }
+  } catch (e) {}
+}
+
+/* ============ કોડ ============ */
+const CH = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const genCode = () => Array.from({ length: 6 }, () => CH[Math.random() * CH.length | 0]).join('');
+function renderCodeTiles() {
+  codeTiles.innerHTML = '';
+  [...S.code].forEach((ch, i) => {
+    const b = document.createElement('b');
+    b.textContent = ch;
+    b.style.animationDelay = (i * 60) + 'ms';
+    codeTiles.appendChild(b);
+  });
+}
+
+/* ============ શેર કરનાર ============ */
+let sigTries = 0, idTries = 0;
+
+function startShareRole() {
+  S.role = 'share'; S.phase = 'wait';
+  showView('share'); showSharePanel('setup');
+  resetDiag(); setDiag('lib', 'run');
+  setNet('જોડાઈ રહ્યા…', 'wait');
+  codeTiles.innerHTML = '';
+  shareStatus.textContent = 'લાઇબ્રેરી લોડ થઈ રહી છે…';
+  log('S role start');
+  keepalive.start();                       /* પેજ જાગતું રહે */
+  loadPeerLib(function () {
+    setDiag('lib', 'ok');
+    sigTries = 0; idTries = 0;
+    newSharePeer();
+  }, function () {
+    setDiag('lib', 'fail'); setNet('ઓફલાઇન', 'off');
+    shareStatus.textContent = 'લાઇબ્રેરી લોડ ન થઈ — ઇન્ટરનેટ ચેક કરીને પેજ ફરી ખોલો.';
+  });
+}
+
+function newSharePeer() {
+  clearTimeout(S.sigTO);
+  try { S.peer && S.peer.destroy(); } catch (e) {}
+  S.code = genCode();
+  const peer = new Peer(S.code, { debug: 0, config: ICE });
+  S.peer = peer;
+  setDiag('sig', 'run');
+  log('S peer new ' + S.code);
+  shareStatus.textContent = 'સિગ્નલ સર્વર સાથે જોડાઈ રહ્યા છીએ…';
+
+  S.sigTO = setTimeout(() => {
+    if (S.peer === peer && S.phase === 'wait' && !peer.open) {
+      log('S signal timeout'); retrySignal('સમય સમાપ્ત');
+    }
+  }, 14000);
+
+  peer.on('open', () => {
+    if (S.peer !== peer) return;
+    clearTimeout(S.sigTO); sigTries = 0; idTries = 0;
+    setDiag('sig', 'ok'); log('S peer open');
+    if (S.phase === 'wait') renderCodeTiles();
+    shareStatus.textContent = 'તૈયાર! આ કોડ જોનારને આપો — હવે રાહ જોઈએ છીએ.';
+    setNet('સિગ્નલ · ઓનલાઇન', 'on');
+  });
+
+  peer.on('connection', c => {
+    if (S.peer !== peer) return;
+    log('S connection event');
+    if (S.phase === 'wait') {
+      toast('જોડાવાનો પ્રયાસ આવ્યો…');
+      shareStatus.textContent = 'કોઈ જોડાવાનો પ્રયાસ કરે છે…';
+    }
+    onIncoming(c);
+  });
+
+  peer.on('disconnected', () => {
+    if (S.peer !== peer) return;
+    log('S sig-disconnected');
+    if (S.phase === 'active' || S.phase === 'request') return;
+    setNet('ફરી જોડાઈ રહ્યા…', 'wait');
+    try { peer.reconnect(); } catch (e) {}
+  });
+
+  peer.on('error', e => {
+    if (S.peer !== peer) return;
+    const t = (e && e.type) || '?';
+    log('S error ' + t + (e && e.message ? ' · ' + e.message : ''));
+    lastErr = t;
+    if (t === 'unavailable-id') { if (++idTries < 6) newSharePeer(); return; }
+    if (['network', 'server-error', 'socket-error', 'socket-closed', 'server-ice'].includes(t)) {
+      if (S.phase === 'active' || S.phase === 'request') return;   /* LIVE છે — ડેટા-ચેનલ જીવતી રહે */
+      retrySignal('સિગ્નલ ખામી: ' + t);
+    } else if (t === 'browser-incompatible') {
+      setDiag('sig', 'fail'); setNet('બ્રાઉઝર જૂનો', 'off');
+      shareStatus.textContent = 'આ બ્રાઉઝર જૂનો છે — નવું Chrome ઇન્સ્ટોલ કરી ફરી ખોલો.';
+    } else {
+      toast('જોડાણની ખામી: ' + t, true);
+    }
+  });
+}
+
+function retrySignal(why) {
+  if (sigTries >= 3) {
+    setDiag('sig', 'fail'); setNet('ઓફલાઇન', 'off'); lastErr = 'sig-fail';
+    shareStatus.textContent = 'સિગ્નલ સર્વર સાથે જોડાણ નિષ્ફળ (' + why + '). ઇન્ટરનેટ ચેક કરીને "નવો કોડ" દબાવો.';
+    return;
+  }
+  sigTries++;
+  log('S sig retry ' + sigTries);
+  shareStatus.textContent = 'સિગ્નલ સાથે જોડાવાનો પ્રયાસ ' + (sigTries + 1) + '/4…';
+  setTimeout(newSharePeer, 900 * sigTries);
+}
+
+function onIncoming(c) {
+  const busy = S.conn && S.conn.open && (S.phase === 'request' || S.phase === 'active');
+  if (busy) {
+    c.on('open', () => {
+      try { c.send({ t: 'busy' }); } catch (e) {}
+      setTimeout(() => { try { c.close(); } catch (e) {} }, 500);
+    });
+    return;
+  }
+  S.conn = c;
+  log('S incoming conn');
+  c.on('open', () => {
+    if (S.conn !== c) return;
+    log('S conn open');
+    if (S.phase === 'wait') shareStatus.textContent = 'જોડાણ ખૂલ્યું — વિનંતિની રાહ…';
+  });
+  c.on('data', d => {
+    if (S.conn !== c || !d) return;
+    if (d.t === 'hi') { try { c.send({ t: 'ready' }); } catch (e) {} }
+    else if (d.t === 'want') {
+      if (S.phase === 'wait') {
+        S.phase = 'request';
+        setDiag('link', 'ok');
+        log('S want → request');
+        showSharePanel('request');
+        chime(); buzz([90, 60, 90, 60, 160]);
+      }
+    }
+    else if (d.t === 'pt') { if (S.phase === 'active') showPointer(d.x, d.y); }
+    else if (d.t === 'end') viewerLeft();
+  });
+  c.on('close', () => {
+    if (S.conn !== c) return;
+    log('S conn close');
+    if (S.phase === 'active') {
+      cleanupStream(); S.phase = 'wait'; showSharePanel('setup');
+      shareStatus.textContent = 'સામેની વ્યક્તિ જતી રહી — એ જ કોડ ફરી ચાલુ છે.';
+      setNet('સિગ્નલ · ઓનલાઇન', 'on');
+      toast('જોનાર જતી રહ્યું');
+    } else if (S.phase === 'request') {
+      S.phase = 'wait'; showSharePanel('setup');
+      toast('વિનંતિ પાછી ખેંચાઈ');
+    } else if (S.phase === 'wait') {
+      shareStatus.textContent = 'તૈયાર! આ કોડ જોનારને આપો — હવે રાહ જોઈએ છીએ.';
+    }
+    S.conn = null;
+    setDiag('link', 'wait');
+  });
+  c.on('error', e => log('S conn error ' + (e && (e.type || e.message) || '?')));
+}
+
+function viewerLeft() {
+  if (S.phase !== 'active') return;
+  log('S viewer left');
+  cleanupStream(); S.phase = 'wait'; showSharePanel('setup');
+  shareStatus.textContent = 'જોનારે જોવું બંધ કર્યું — એ જ કોડ ફરી વાપરી શકાય.';
+  setNet('સિગ્નલ · ઓનલાઇન', 'on');
+  toast('જોનારે જોવું બંધ કર્યું');
+}
+
+function shareErrShow(msg) { shareErrText.textContent = msg; shareErr.hidden = false; }
+
+async function getScreenStream() {
+  try { return await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }); }
+  catch (e1) {
+    if (e1 && e1.name === 'NotAllowedError') throw e1;
+    try { return await navigator.mediaDevices.getDisplayMedia({ video: true }); }
+    catch (e2) { throw e2; }
+  }
+}
+
+let allowing = false;
+async function beginScreen() {
+  if (allowing) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+    shareErrShow('આ બ્રાઉઝરમાં સ્ક્રીન-શેરનો વિકલ્પ જ નથી.');
+    camFallback.hidden = false;
+    return;
+  }
+  allowing = true; $('#btnAllow').disabled = true;
+  log('S getDisplayMedia…');
+  try {
+    const st = await getScreenStream();
+    goLive(st, 'screen');
+  } catch (err) {
+    const n = err && err.name;
+    log('S screen fail ' + n);
+    if (n === 'NotAllowedError' || n === 'AbortError')
+      shareErrShow('પરવાનગી મળી નહીં / રદ થયું. ફરી "મંજૂર કરો" દબાવો અને બ્રાઉઝરના ડાયલોગમાં Allow/Start પસંદ કરો.');
+    else {
+      shareErrShow('સ્ક્રીન-શેર શરૂ ન થયો — આ બ્રાઉઝર ટેકતું નથી (ખાસ કરીને iPhone/iPad).');
+      camFallback.hidden = false;
+    }
+  } finally { allowing = false; $('#btnAllow').disabled = false; }
+}
+
+async function beginCamera() {
+  if (allowing) return;
+  allowing = true;
+  log('S camera ' + S.camFacing);
+  try {
+    const st = await navigator.mediaDevices.getUserMedia({ video: { facingMode: S.camFacing }, audio: false });
+    goLive(st, 'camera');
+  } catch (err) { log('S cam fail'); shareErrShow('કૅમેરા ખૂલ્યો નહીં — કૅમેરાની પરવાનગી ચેક કરો.'); }
+  finally { allowing = false; }
+}
+
+function goLive(st, kind) {
+  if (!S.conn || !S.conn.open || !S.peer || S.peer.disconnected) {
+    st.getTracks().forEach(t => t.stop());
+    shareErrShow('જોનાર હવે જોડાયેલું નથી — એ ફરી વિનંતિ મોકલશે ત્યારે મંજૂર કરજો.');
+    return;
+  }
+  let call;
+  try { call = S.peer.call(S.conn.peer, st); }
+  catch (e) { st.getTracks().forEach(t => t.stop()); shareErrShow('કૉલ નિષ્ફળ ગયો — ફરી પ્રયાસ કરો.'); return; }
+  S.stream = st; S.call = call;
+  log('S live ' + kind);
+  st.getVideoTracks()[0].addEventListener('ended', () => stopShare());
+  call.on('close', () => { if (S.phase === 'active') viewerLeft(); });
+  call.on('error', () => { log('S call error'); toast('મીડિયા-જોડાણ તૂટ્યું', true); stopShare(); });
+  watchIce(call.peerConnection, 'S');
+  try { S.conn.send({ t: 'started', kind }); } catch (e) {}
+  S.phase = 'active';
+  setDiag('video', 'ok');
+  shareKindEl.textContent = kind === 'screen' ? 'સ્ક્રીન' : 'કૅમેરા';
+  showSharePanel('active');
+  startTimer(shareTimerEl);
+  setNet('LIVE', 'live');
+  buzz(70);
+  toast(kind === 'screen' ? 'સ્ક્રીન-શેરિંગ શરૂ થયું' : 'કૅમેરા-શેરિંગ શરૂ થયું');
+}
+
+let stoppingShare = false;
+function stopShare() {
+  if (S.phase !== 'active' || stoppingShare) return;
+  stoppingShare = true;
+  log('S stop');
+  try { S.conn && S.conn.open && S.conn.send({ t: 'end' }); } catch (e) {}
+  cleanupStream();
+  S.phase = 'wait';
+  showSharePanel('setup');
+  shareStatus.textContent = 'શેરિંગ પૂરું થયું — એ જ કોડથી ફરી શરૂ કરી શકાય.';
+  setNet('સિગ્નલ · ઓનલાઇન', 'on');
+  toast('શેરિંગ બંધ થયું');
+  stoppingShare = false;
+}
+
+function cleanupStream() {
+  stopTimer();
+  try { S.call && S.call.close(); } catch (e) {}
+  S.call = null;
+  if (S.stream) {
+    const st = S.stream; S.stream = null;
+    st.getTracks().forEach(t => { try { t.stop(); } catch (e) {} });
+  }
+  setDiag('video', 'wait');
+  clearPointer();
+}
+
+function teardownShare() {
+  clearTimeout(S.sigTO);
+  try { S.conn && S.conn.open && S.conn.send({ t: 'end' }); } catch (e) {}
+  cleanupStream();
+  try { S.peer && S.peer.destroy(); } catch (e) {}
+  S.peer = null; S.conn = null; S.phase = 'idle'; S.role = null;
+  keepalive.release();
+  resetDiag();
+  setNet('સ્ટેન્ડબાય', 'idle');
+}
+
+function showPointer(x, y) {
+  if (typeof x !== 'number' || typeof y !== 'number') return;
+  x = Math.min(Math.max(x, 0), 1); y = Math.min(Math.max(y, 0), 1);
+  let p = pointerLayer.firstElementChild;
+  if (!p) { p = document.createElement('div'); p.className = 'pt'; p.innerHTML = '<b>અહીં જુઓ</b>'; pointerLayer.appendChild(p); }
+  p.style.left = (x * innerWidth) + 'px';
+  p.style.top = (y * innerHeight) + 'px';
+  p.classList.toggle('flip', y * innerHeight < 96);
+  clearTimeout(S.ptTimer);
+  S.ptTimer = setTimeout(() => p.remove(), 2200);
+  buzz([50, 40, 60]);
+}
+function clearPointer() { clearTimeout(S.ptTimer); pointerLayer.innerHTML = ''; }
+
+/* ============ જોનાર ============ */
+function startWatchRole() {
+  S.role = 'watch'; S.phase = 'enter';
+  showView('watch'); showWatchPanel('enter'); syncWatchControls();
+  resetDiag(); setDiag('lib', 'run');
+  log('W role start');
+  keepalive.start();
+  loadPeerLib(() => setDiag('lib', 'ok'),
+    () => { setDiag('lib', 'fail'); toast('લાઇબ્રેરી લોડ નહીં થઈ — ઇન્ટરનેટ ચેક કરો', true); });
+  setTimeout(() => codeInputs[0] && codeInputs[0].focus({ preventScroll: true }), 150);
+}
+
+function currentCode() { return codeInputs.map(i => i.value).join(''); }
+function codeComplete() { return /^[A-Z0-9]{6}$/.test(currentCode()); }
+function fillCode(code) { codeInputs.forEach((inp, i) => inp.value = code[i] || ''); }
+function watchErrShow(msg) { watchErrText.textContent = msg; watchErr.hidden = false; }
+
+function killPeer() {
+  try { S.peer && S.peer.destroy(); } catch (e) {}
+  S.peer = null; S.conn = null; S.call = null;
+}
+
+let wAttempt = 0;
+
+function connectWatcher() {
+  watchErr.hidden = true;
+  S.phase = 'connecting';
+  S.wTimeoutHit = false;
+  wAttempt = 0;
+  DIAG.lib = 'ok'; DIAG.sig = 'run'; DIAG.link = 'wait'; DIAG.video = 'wait'; renderDiag();
+  showWatchPanel('screen'); syncWatchControls();
+  watchCodeChip.textContent = 'કોડ: ' + currentCode();
+  watchHint.hidden = true;
+  liveTag.hidden = true;
+  playBlock.hidden = true;
+  remoteVideo.hidden = true; remoteVideo.srcObject = null;
+  setStage(false, 'SIGNAL · SEARCH', 'શેર કરનારને શોધી રહ્યા છીએ…');
+  setNet('જોડાઈ રહ્યા…', 'wait');
+  noise.start();
+  keepalive.audio();
+  clearTimeout(S.connectTimeout); clearTimeout(S.sigTO); clearTimeout(S.waitHintTO);
+  killPeer();
+  watcherConnect();
+}
+
+/* દરેક પ્રયાસ = તાજો પીઅર. નિષ્ફળ થાય તો એક વાર આપોઆપ ફરી (કુલ 2). */
+function watcherConnect() {
+  wAttempt++;
+  const code = currentCode();
+  const peer = new Peer({ debug: 0, config: ICE });
+  S.peer = peer;
+  let settled = false;                       /* આ પ્રયાસનો નિકાલ થઈ ગયો? */
+  const N = wAttempt;
+  log('W attempt ' + N + ' start ' + code);
+
+  const clearTimers = () => { clearTimeout(S.sigTO); clearTimeout(S.connectTimeout); };
+
+  const settleFail = why => {
+    if (settled) return;
+    settled = true;
+    clearTimers();
+    log('W attempt ' + N + ' fail: ' + why);
+    lastErr = why;
+    if (N < 2) {
+      S.wTimeoutHit = true;
+      setStage(false, 'SIGNAL · RETRY', 'પ્રયાસ 1 નિષ્ફળ — નવા જોડાણથી આપોઆપ ફરી પ્રયાસ (2/2)…');
+      setNet('ફરી પ્રયાસ…', 'wait');
+      setTimeout(() => {
+        if (S.phase === 'connecting') { killPeer(); watcherConnect(); }
+      }, 900);
+    } else {
+      endWatch('network');
+    }
+  };
+
+  /* 10 સે.માં સિગ્નલ ન ખૂલે */
+  S.sigTO = setTimeout(() => {
+    if (S.peer === peer && S.phase === 'connecting' && !peer.open) settleFail('signal-timeout');
+  }, 10000);
+
+  peer.on('open', () => {
+    if (S.peer !== peer || S.phase !== 'connecting') return;
+    clearTimeout(S.sigTO);
+    setDiag('sig', 'ok'); log('W peer open');
+    let conn;
+    try { conn = peer.connect(code, { reliable: true }); }
+    catch (e) { settleFail('connect-throw'); return; }
+    S.conn = conn;
+
+    /* 16 સે.માં બીજો પક્ષ ડેટા-ચેનલ ન ખોલે */
+    S.connectTimeout = setTimeout(() => {
+      if (S.phase === 'connecting' && S.conn === conn && !conn.open) settleFail('conn-timeout');
+    }, 16000);
+
+    conn.on('open', () => {
+      if (S.conn !== conn) return;
+      settled = true;                       /* પ્રયાસ સફળ — હવે મંજૂરીની રાહ */
+      clearTimers();
+      setDiag('link', 'ok'); log('W conn open');
+      try { conn.send({ t: 'hi' }); conn.send({ t: 'want' }); } catch (e) {}
+      setStage(false, 'SIGNAL · WAITING', 'વિનંતિ પહોંચી ગઈ! શેર કરનારના ફોનમાં "મંજૂર કરો"નું કાર્ડ આવશે — એમની રાહ…');
+      watchHint.hidden = false;
+      watchHint.textContent = 'શેર કરનાર પાસે આ પેજ ખુલ્લું અને દેખાતું છે ખાતરી કરો.';
+      S.waitHintTO = setTimeout(() => {
+        if (S.phase === 'connecting')
+          setStage(false, 'SIGNAL · WAITING', 'હજી રાહ છીએ… સામેના ફોનમાં કાર્ડ દેખાયું છે? ન દેખાય તો "રદ કરો" → "ફરી પ્રયાસ".');
+      }, 45000);
+    });
+    conn.on('data', onWatchData);
+    conn.on('close', () => {
+      if (S.conn !== conn) return;
+      if (S.phase === 'live') { log('W conn close'); endWatch('gone'); }
+      else if (S.phase === 'connecting') settleFail('conn-close');
+    });
+    conn.on('error', e => {
+      log('W conn error ' + (e && (e.type || e.message) || '?'));
+      if (S.phase === 'connecting') settleFail('conn-error');
+    });
+  });
+
+  peer.on('call', c => {
+    if (S.peer !== peer || S.phase === 'ended') return;
+    S.call = c;
+    setDiag('video', 'run'); log('W call in');
+    try { c.answer(); } catch (e) {}
+    c.on('stream', st => attachStream(st));
+    c.on('close', () => { if (S.phase === 'live') { log('W call close'); endWatch('gone'); } });
+    c.on('error', () => { log('W call error'); if (S.phase !== 'ended') endWatch('network'); });
+    watchIce(c.peerConnection, 'W');
+  });
+
+  peer.on('disconnected', () => {
+    if (S.peer !== peer) return;
+    log('W sig-disconnected');
+    if (S.phase === 'connecting') { try { peer.reconnect(); } catch (e) {} }
+  });
+
+  peer.on('error', e => {
+    const t = (e && e.type) || '?';
+    log('W error ' + t + (e && e.message ? ' · ' + e.message : ''));
+    if (S.peer !== peer || S.phase === 'ended' || S.phase === 'live') return;
+    if (t === 'peer-unavailable') {
+      settled = true; clearTimers(); endWatch('unavailable'); return;
+    }
+    settleFail('peer-err ' + t);
+  });
+}
+
+function onWatchData(d) {
+  if (!d) return;
+  log('W data ' + d.t);
+  if (d.t === 'busy') endWatch('busy');
+  else if (d.t === 'deny') endWatch('denied');
+  else if (d.t === 'started') {
+    setDiag('link', 'ok'); setDiag('video', 'run');
+    setStage(false, 'SIGNAL · INCOMING', 'મંજૂરી મળી! સિગ્નલ આવી રહ્યો છે…');
+  }
+  else if (d.t === 'end') endWatch('sharer-stop');
+}
+
+function attachStream(st) {
+  if (S.phase === 'ended') return;
+  remoteVideo.srcObject = st;
+  remoteVideo.hidden = false;
+  remoteVideo.play().catch(() => { playBlock.hidden = false; });
+  const go = () => {
+    if (S.phase === 'live') return;
+    S.phase = 'live';
+    clearTimeout(S.waitHintTO);
+    setDiag('link', 'ok'); setDiag('video', 'ok');
+    log('W video live');
+    noise.stop();
+    stageOverlay.hidden = true;
+    liveTag.hidden = false;
+    startTimer(watchTimerEl);
+    setNet('LIVE', 'live');
+    syncWatchControls();
+    watchHint.hidden = false;
+    watchHint.innerHTML = 'સ્ક્રીન પર જ્યાં ધ્યાન ખેંચવું હોય ત્યાં <svg class="ic" width="15" height="15"><use href="#i-tap"/></svg> ટાપ કરો — સામેના ફોનમાં નિશાની દેખાશે.';
+    buzz(60);
+    toast('લાઇવ સ્ક્રીન શરૂ!');
+  };
+  if (remoteVideo.readyState >= 2) go();
+  else remoteVideo.addEventListener('loadeddata', go, { once: true });
+}
+
+function endWatch(reason) {
+  clearTimeout(S.connectTimeout); clearTimeout(S.waitHintTO); clearTimeout(S.sigTO);
+  if (S.phase === 'ended') return;
+  S.phase = 'ended';
+  log('W end ' + reason);
+  stopTimer();
+  noise.start();
+  liveTag.hidden = true;
+  stageOverlay.hidden = false;
+  try { remoteVideo.pause(); } catch (e) {}
+  remoteVideo.srcObject = null; remoteVideo.hidden = true;
+  playBlock.hidden = true;
+  setNet('સિગ્નલ · ઓનલાઇન', 'on');
+  syncWatchControls();
+
+  /* સાચું પગલું લાલ કરીએ — V3 ની ભૂલ સુધારી */
+  if (reason === 'unavailable') setDiag('link', 'fail');
+  else if (reason === 'network') {
+    if (DIAG.sig !== 'ok') setDiag('sig', 'fail');
+    else if (DIAG.link !== 'ok') setDiag('link', 'fail');
+    else setDiag('video', 'fail');
+  }
+
+  const M = {
+    busy:       ['BUSY', 'શેર કરનાર પાસે પહેલેથી બીજું જોડાણ ચાલુ છે — થોડી વાર પછી ફરી પ્રયાસ કરો.', true],
+    denied:     ['DENIED', 'શેર કરનારાએ ના પાડી દીધી. એમની સાથે વાત કરીને ફરી વિનંતિ મોકલો.', true],
+    unavailable: S.wTimeoutHit
+      ? ['DEAD PEER', 'પહેલા પ્રયાસમાં જોડાણ હતું પણ સામેનો પક્ષ પછી મરી ગયો (પેજ બંધ/બેકગ્રાઉન્ડ થયું હશે). શેર કરનારને પેજ સામે ખોલવા/ફરી ખોલવા કહો — પછી "ફરી પ્રયાસ" દબાવો.', true]
+      : ['NO SIGNAL', 'આ કોડ સાથે કોઈ જોડાયેલું નથી. કોડ ફરી ચેક કરો — શેર કરનાર પાસે પેજ ખુલ્લું છે ખરું? (રિફ્રેશ થતાં કોડ બદલાઈ જાય)', true],
+    network:    ['WEAK LINK', '2 પ્રયાસે પણ બંને વચ્ચે જોડાણ ન બન્યું. મોટા ભાગે શેર કરનારનું પેજ બેકગ્રાઉન્ડમાં હશે — એને પેજ સામે લાવવા કહો અને "ફરી પ્રયાસ" દબાવો. ન થાય તો બંનેનું ઇન્ટરનેટ ચેક કરો.', true],
+    gone:       ['SIGNAL LOST', 'જોડાણ તૂટી ગયું. "ફરી પ્રયાસ" કરી શકાય.', true],
+    'sharer-stop': ['SIGNAL END', 'શેર કરનારાએ શેરિંગ બંધ કરી દીધું.', false]
+  };
+  const m = M[reason] || M.network;
+  setStage(m[2], m[0], m[1]);
+  watchHint.hidden = false;
+  watchHint.innerHTML = 'ફરી ન થાય તો <b>રિપોર્ટ કોપી</b> કરીને <b>બંને પક્ષના</b> રિપોર્ટ મોકલો — કયા પગલામાં અટક્યું એ ખબર પડશે.';
+}
+
+function teardownWatch() {
+  clearTimeout(S.connectTimeout); clearTimeout(S.waitHintTO); clearTimeout(S.sigTO);
+  killPeer();
+  stopTimer(); noise.stop();
+  try { remoteVideo.pause(); } catch (e) {}
+  remoteVideo.srcObject = null; remoteVideo.hidden = true;
+  stageOverlay.hidden = true; liveTag.hidden = true; playBlock.hidden = true;
+  watchHint.hidden = true;
+  S.phase = 'idle'; S.role = null;
+  keepalive.release();
+  resetDiag();
+  setNet('સ્ટેન્ડબાય', 'idle');
+}
+
+/* ============ કોડ-ઈનપુટ ============ */
+codeInputs.forEach((inp, i) => {
+  on(inp, 'input', () => {
+    const raw = inp.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    inp.value = raw.slice(-1);
+    if (inp.value && i < codeInputs.length - 1) codeInputs[i + 1].focus();
+    watchErr.hidden = true;
+  });
+  on(inp, 'keydown', e => {
+    if (e.key === 'Backspace' && !inp.value && i > 0) {
+      e.preventDefault();
+      codeInputs[i - 1].value = ''; codeInputs[i - 1].focus();
+    }
+    if (e.key === 'Enter' && codeComplete()) connectWatcher();
+  });
+  on(inp, 'paste', e => {
+    e.preventDefault();
+    const txt = (e.clipboardData || window.clipboardData).getData('text') || '';
+    const m = txt.toUpperCase().match(/[A-Z0-9]{6}/);
+    fillCode(m ? m[0] : '');
+  });
+  on(inp, 'focus', () => inp.select());
+});
+
+/* ============ બટન ============ */
+on($('#btn-role-share'), 'click', startShareRole);
+on($('#btn-role-watch'), 'click', startWatchRole);
+
+on($('#shareBack'), 'click', () => { teardownShare(); showView('home'); });
+on($('#watchBack'), 'click', () => {
+  if (S.phase === 'live') {
+    try { S.conn && S.conn.send({ t: 'end' }); } catch (e) {}
+    teardownWatch(); showView('home'); toast('જોવું બંધ કર્યું');
+  } else if (S.phase === 'connecting' || S.phase === 'ended') {
+    teardownWatch(); showWatchPanel('enter');
+  } else { teardownWatch(); showView('home'); }
+});
+
+async function copyText(t) {
+  try { await navigator.clipboard.writeText(t); return true; }
+  catch (e) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = t; ta.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand('copy'); ta.remove(); return ok;
+    } catch (e2) { return false; }
+  }
+}
+
+async function copyReport() {
+  const steps = DIAG_META.map(([id, l]) => l + ': ' + DIAG_LBL[DIAG[id]]).join(' · ');
+  const pState = S.peer ? ((S.peer.id || '—') + ' ' + (S.peer.destroyed ? '(dead)' : S.peer.disconnected ? '(disc)' : S.peer.open ? '(open)' : '(init)')) : '—';
+  const rep = [
+    'દર્પણ V4 — તપાસ-રિપોર્ટ',
+    'વેળા: ' + new Date().toLocaleString(),
+    'પ્રોટોકોલ: ' + location.protocol,
+    'ઓનલાઇન: ' + (navigator.onLine ? 'હા' : 'ના'),
+    'સ્ક્રીન-શેર ટેક: ' + (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? 'હા' : 'ના'),
+    'પગલાં: ' + steps,
+    'પ્રયાસ (જોનાર): ' + (S.role === 'watch' ? Math.max(wAttempt, 0) + '/2' : '—'),
+    'છેલ્લી ભૂલ: ' + lastErr,
+    'ભૂમિકા: ' + (S.role || '—') + ' / તબક્કો: ' + S.phase,
+    'કોડ: ' + (S.code || currentCode() || '—'),
+    'પીઅર: ' + pState,
+    'પેજ દેખાય: ' + document.visibilityState,
+    '— લોગ —', ...LOG.slice(-26),
+    '— બ્રાઉઝર —', navigator.userAgent
+  ].join('\n');
+  const ok = await copyText(rep);
+  toast(ok ? 'રિપોર્ટ કોપી થયો — ચેટમાં પેસ્ટ કરી મોકલો' : 'કોપી ન થયું', !ok);
+}
+
+on($('#btnCopy'), 'click', async () => {
+  const ok = await copyText('મારો દર્પણ કોડ: ' + S.code);
+  toast(ok ? 'કોડ કોપી થયો' : 'કોપી ન થયું — કોડ જોઈને લખી લો', !ok);
+});
+on($('#btnSend'), 'click', async () => {
+  const text = 'મારો દર્પણ કોડ: ' + S.code + '\nદર્પણ પેજમાં "બીજાની સ્ક્રીન જોવી છે" પસંદ કરીને આ કોડ નાખો.';
+  if (navigator.share) {
+    try { await navigator.share({ title: 'દર્પણ કોડ', text }); return; }
+    catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  const ok = await copyText(text);
+  toast(ok ? 'કોડ કોપી થયો — WhatsApp પર પેસ્ટ કરો' : 'કોપી ન થયું', !ok);
+});
+on($('#btnNewCode'), 'click', () => {
+  if (S.role !== 'share' || S.phase !== 'wait') return;
+  sigTries = 0;
+  newSharePeer();
+  setNet('જોડાઈ રહ્યા…', 'wait');
+});
+on($('#btnSelfTest'), 'click', () => {
+  if (!S.peer || !S.peer.open || !S.code) { toast('કોડ હજી તૈયાર નથી — થોડી સેકન્ડ રાહ જુઓ', true); return; }
+  const url = location.href.split('#')[0] + '#test=' + S.code;
+  const w = window.open(url, '_blank');
+  if (!w) toast('નવી ટૅબ ન ખૂલી — બીજી ટૅબમાં આ કોડ હાથે નાખી જોડાવો', true);
+  else toast('નવી ટૅબમાં આપોઆપ જોડાશે — પછી આ ટૅબમાં "મંજૂર કરો" દબાવો');
+});
+
+on($('#btnAllow'), 'click', beginScreen);
+on($('#btnCam'), 'click', beginCamera);
+on($('#btnFlip'), 'click', () => {
+  S.camFacing = S.camFacing === 'environment' ? 'user' : 'environment';
+  camFaceLabel.textContent = S.camFacing === 'environment' ? 'પાછળનો' : 'આગળનો';
+});
+on($('#btnDeny'), 'click', () => {
+  try { S.conn && S.conn.send({ t: 'deny' }); } catch (e) {}
+  try { S.conn && S.conn.close(); } catch (e) {}
+  S.conn = null; S.phase = 'wait';
+  showSharePanel('setup');
+  shareStatus.textContent = 'વિનંતિ નકારી — ફરી કોઈ આવે તો દેખાશે.';
+  toast('વિનંતિ નકારી દીધી');
+});
+on($('#btnStopShare'), 'click', stopShare);
+
+on($('#btnConnect'), 'click', () => {
+  if (S.phase === 'connecting') return;
+  if (!codeComplete()) { watchErrShow('શેર કરનારે આપેલા 6 અક્ષરનો સંપૂર્ણ કોડ નાખો.'); return; }
+  if (!window.Peer) { watchErrShow('લાઇબ્રેરી હજી લોડ થઈ નથી — થોડી સેકન્ડ રાહ જુઓ અથવા ઇન્ટરનેટ ચેક કરો.'); return; }
+  connectWatcher();
+});
+on(btnWatchCancel, 'click', () => { teardownWatch(); showWatchPanel('enter'); });
+on($('#btnLeave'), 'click', () => {
+  try { S.conn && S.conn.open && S.conn.send({ t: 'end' }); } catch (e) {}
+  teardownWatch(); showView('home'); toast('જોવું બંધ કર્યું');
+});
+on($('#btnRejoin'), 'click', () => { if (codeComplete()) connectWatcher(); else { teardownWatch(); showWatchPanel('enter'); } });
+on($('#btnWatchBack2'), 'click', () => { teardownWatch(); showView('home'); });
+
+/* ============ ટાપ → પોઇન્ટર ============ */
+let dragPoint = false, lastPtT = 0;
+function pointFromEvent(e) {
+  const r = stage.getBoundingClientRect(), v = remoteVideo;
+  const vw = v.videoWidth || 16, vh = v.videoHeight || 9;
+  const sc = Math.min(r.width / vw, r.height / vh);
+  const dw = vw * sc, dh = vh * sc;
+  const x = (e.clientX - r.left - (r.width - dw) / 2) / dw;
+  const y = (e.clientY - r.top - (r.height - dh) / 2) / dh;
+  if (x < 0 || x > 1 || y < 0 || y > 1) return null;
+  return { x, y };
+}
+function sendPoint(e) {
+  const p = pointFromEvent(e);
+  if (!p) return;
+  try { S.conn && S.conn.open && S.conn.send({ t: 'pt', x: p.x, y: p.y }); } catch (err) {}
+}
+function ripple(e) {
+  const r = stage.getBoundingClientRect();
+  const d = document.createElement('div');
+  d.className = 'ripple';
+  d.style.left = (e.clientX - r.left) + 'px';
+  d.style.top = (e.clientY - r.top) + 'px';
+  stage.appendChild(d);
+  setTimeout(() => d.remove(), 600);
+}
+on(stage, 'pointerdown', e => {
+  if (S.role !== 'watch' || S.phase !== 'live') return;
+  if (!remoteVideo.paused) { sendPoint(e); ripple(e); dragPoint = true; }
+  else { remoteVideo.play().then(() => playBlock.hidden = true).catch(() => {}); }
+});
+on(stage, 'pointermove', e => {
+  if (!dragPoint || S.phase !== 'live') return;
+  const now = Date.now();
+  if (now - lastPtT < 90) return;
+  lastPtT = now;
+  sendPoint(e);
+});
+on(window, 'pointerup', () => dragPoint = false);
+on(window, 'pointercancel', () => dragPoint = false);
+on(playBlock, 'click', () => remoteVideo.play().then(() => playBlock.hidden = true).catch(() => {}));
+
+/* ============ ફુલસ્ક્રીન / સ્નેપશોટ ============ */
+on($('#btnFull'), 'click', () => {
+  const rf = stage.requestFullscreen || stage.webkitRequestFullscreen || stage.msRequestFullscreen;
+  if (rf) {
+    try { const p = rf.call(stage); if (p && p.catch) p.catch(() => {}); } catch (e) {}
+  } else if (remoteVideo.webkitEnterFullscreen) {
+    try { remoteVideo.webkitEnterFullscreen(); } catch (e) {}
+  } else toast('આ બ્રાઉઝરમાં ફુલસ્ક્રીન સપોર્ટ નથી', true);
+});
+let snapUrl = null;
+on($('#btnSnap'), 'click', () => {
+  const v = remoteVideo;
+  if (S.phase !== 'live' || !v.videoWidth) { toast('હજી લાઇવ સ્ક્રીન નથી', true); return; }
+  try {
+    const c = document.createElement('canvas');
+    c.width = v.videoWidth; c.height = v.videoHeight;
+    c.getContext('2d').drawImage(v, 0, 0);
+    c.toBlob(b => {
+      if (!b) { toast('સ્નેપશોટ ન બન્યો', true); return; }
+      if (snapUrl) URL.revokeObjectURL(snapUrl);
+      snapUrl = URL.createObjectURL(b);
+      snapImg.src = snapUrl;
+      snapLink.href = snapUrl;
+      snapLink.download = 'darpan-' + new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-') + '.png';
+      snapModal.hidden = false;
+    }, 'image/png');
+  } catch (e) { toast('સ્નેપશોટ ન બન્યો', true); }
+});
+on(snapModal, 'click', e => { if (e.target === snapModal) closeSnap(); });
+on($('#snapClose'), 'click', closeSnap);
+function closeSnap() {
+  snapModal.hidden = true;
+  if (snapUrl) { URL.revokeObjectURL(snapUrl); snapUrl = null; }
+}
+
+/* ============ સેલ્ફ-ટેસ્ટ (#test=CODE) ============ */
+function initSelfTest() {
+  const m = (location.hash || '').match(/test=([A-Z0-9]{6})/i);
+  if (!m) return;
+  const code = m[1].toUpperCase();
+  log('SELFTEST ' + code);
+  S.role = 'watch'; S.phase = 'enter';
+  showView('watch'); showWatchPanel('enter'); syncWatchControls();
+  resetDiag(); setDiag('lib', 'run');
+  fillCode(code);
+  loadPeerLib(() => {
+    setDiag('lib', 'ok');
+    if (S.phase === 'enter' && currentCode() === code) connectWatcher();
+  }, () => { setDiag('lib', 'fail'); toast('લાઇબ્રેરી લોડ નહીં થઈ — ઇન્ટરનેટ ચેક કરો', true); });
+}
+
+/* ============ વિઝિબિલિટી: પેજ દેખાય એટલે જોડાણ પાછું ============ */
+document.addEventListener('visibilitychange', () => {
+  log('VIS ' + document.visibilityState);
+  if (document.visibilityState !== 'visible') return;
+  envRefresh();
+  if (keepalive.on) { keepalive.wake(); keepalive.audio(); }
+  if (S.role === 'share' && S.peer && S.phase !== 'active') {
+    if (S.peer.destroyed) {
+      log('S visible→peer dead→new');
+      newSharePeer();
+      setNet('જોડાઈ રહ્યા…', 'wait');
+    } else if (S.peer.disconnected) {
+      log('S visible→reconnect');
+      setNet('ફરી જોડાઈ રહ્યા…', 'wait');
+      try { S.peer.reconnect(); } catch (e) { newSharePeer(); }
+    }
+  }
+});
+
+/* ============ હાર્ટબીટ (રિપોર્ટ-ટાઈમલાઈન માટે) ============ */
+setInterval(() => {
+  if (!S.role || !S.peer) return;
+  const st = S.peer.destroyed ? 'dead' : S.peer.disconnected ? 'disc' : (S.peer.open ? 'open' : 'init');
+  log('HB ' + st + ' ph=' + S.phase + ' vis=' + document.visibilityState);
+}, 30000);
+
+/* ============ શરૂઆત ============ */
+noise.init($('#noiseCanvas'));
+renderDiag();
+log('BOOT v4 ' + location.protocol + ' online=' + (navigator.onLine ? 1 : 0) +
+    ' gdm=' + (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? 1 : 0));
+envRefresh();
+window.addEventListener('online', envRefresh);
+window.addEventListener('offline', envRefresh);
+initSelfTest();
+setNet('સ્ટેન્ડબાય', 'idle');
+on(window, 'beforeunload', () => { try { S.peer && S.peer.destroy(); } catch (e) {} });
+
+})();
+</script>
+</body>
+</html>
